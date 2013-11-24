@@ -1,19 +1,20 @@
 Blurt
 =====
 
-A handy little service for sending off fire-and-forget UDP packets with JSON or BSON
-payloads.  Useful for performance monitoring or as a simple message bus (if you can
-tolerate the limitations of UDP) between applications or within a cluster.  Each
-packet contains unique ids to identify the host, application and installed copy
-of the application, in addition to the payload.
+A handy little service for sending off fire-and-forget UDP packets with 
+JSON or [BSON](http://bsonspec.org/)
+payloads.  Useful for performance monitoring or as a simple message bus between 
+applications or within a cluster.  Each packet contains unique ids to identify the 
+host, application and installed copy of the application, in addition to the payload.
 
-Implemented in both Java (using NIO) and NodeJS.
+Implemented in both Java (using NIO) and [NodeJS](http://nodejs.org).
 
 
 Java-Blurt
 ----------
 
-Uses [Giulius](../giulius) for configuration and Guice for initialization.
+Uses [Giulius](../../../giulius) for configuration and Guice for initialization -
+this relies on simple properties files or Properties objects bound using Guice.
 
 To use BSON instead of JSON, do the following in a Guice module:
 
@@ -149,7 +150,7 @@ BSON instead of JSON
 --------------------
 
 UDP has limitations on packet size, so to fit the most information into the smallest
-number of bytes, BSON (the binary JSON format [MongoDB](http://mongodb.org) uses) is
+number of bytes, [BSON](http://bsonspec.org/) (the binary JSON format [MongoDB](http://mongodb.org) uses) is
 supported, which significantly reduces the number of bytes needed for packets, particularly
 in the case of strings which cost extra bytes for quotes.
 
@@ -159,6 +160,9 @@ To enable BSON in the Java version, bind the following with Guice:
 
 To enable BSON in the Javascript version, set the ``bson`` property to ``true`` in the
 configuration object you pass to the ``Blurt`` constructor.
+
+Other codecs are possible (for example, an encrypting wrapper) are possible;  it is
+important, however, to respect the length limitations of UDP packets.
 
 
 What Goes Over The Wire
@@ -171,6 +175,20 @@ save bytes here!) to the outgoing data, which contains the following:
 
           $applicationId:$instanceId:$applicationName
 
-These are stripped out of the payload you get back, and are passed to you separately.
+These are stripped out of the payload you get back, and are passed to you separately.  This
+does mean that any property named ``i`` will be clobbered in payloads.
+
+
+A Last Word on UDP
+------------------
+
+UDP is appropriate for things where *packet loss is not catastrophic* - it trades away
+reliable delivery for message atomicity.  It's great when that is the right compromise
+for the application.  It is not the right thing to use if packet loss *is* disasterous.
+
+It would be possible to write an alternate transport (say using [ZeroMQ](http://zeromq.org/)
+which would still use this library's API.  Contributions are welcome!
+
+
 
 
