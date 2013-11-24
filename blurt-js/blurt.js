@@ -43,8 +43,6 @@ function Blurt(suppliedConfig) {
     }
     var client = config.send ? dgram.createSocket(config.ipv4 ? "udp4" : "udp6") : null;
 
-    console.log(util.inspect(config))
-
     var bson = config.bson ? require('buffalo') : null;
 
     var uid = config.appId + ':' + config.instanceId + ':' + config.appName;
