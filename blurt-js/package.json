@@ -1,5 +1,5 @@
 {
-  "name" : "blurt-js",
+  "name" : "blurt",
   "description" : "A handy little tool for sending and receiving fire-and-forget UDP packets with JSON/BSON payloads.",
   "version" : "1.39.1",
   "main" : "./blurt.js",

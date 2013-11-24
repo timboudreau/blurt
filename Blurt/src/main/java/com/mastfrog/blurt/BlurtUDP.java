@@ -3,21 +3,15 @@ package com.mastfrog.blurt;
 import com.fasterxml.jackson.core.type.TypeReference;
 import static com.mastfrog.blurt.BlurtUDP.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.mastfrog.cluster.ApplicationInfo;
-import com.mastfrog.giulius.Dependencies;
 import com.mastfrog.giulius.ShutdownHookRegistry;
 import com.mastfrog.guicy.annotations.Defaults;
-import com.mastfrog.settings.MutableSettings;
 import com.mastfrog.settings.Settings;
-import com.mastfrog.settings.SettingsBuilder;
 import com.mastfrog.util.Checks;
 import com.mastfrog.util.collections.CollectionUtils;
-import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -25,16 +19,12 @@ import java.net.NetworkInterface;
 import java.net.ProtocolFamily;
 import java.net.SocketException;
 import java.net.StandardProtocolFamily;
-import java.nio.ByteBuffer;
 import java.nio.channels.ClosedChannelException;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -99,7 +89,7 @@ class BlurtUDP implements Blurt, BlurtControl {
     private final AtomicBoolean stopped = new AtomicBoolean();
 
     @Inject
-    public BlurtUDP(ShutdownHookRegistry hooks, BlurtReceiver receiver, Settings settings, BlurtCodec codec, ApplicationInfo info) throws ClosedChannelException, SocketException, IOException {
+    BlurtUDP(ShutdownHookRegistry hooks, BlurtReceiver receiver, Settings settings, BlurtCodec codec, ApplicationInfo info) throws ClosedChannelException, SocketException, IOException {
         this.info = info;
         int threadCount = settings.getInt(BLURT_UDP_THREAD_COUNT, 2);
         Checks.nonZero(BLURT_UDP_THREAD_COUNT, threadCount);
@@ -258,107 +248,6 @@ class BlurtUDP implements Blurt, BlurtControl {
         m.put("i", info.uniqueIdentifier());
         m.put(key, value);
         return blurt(m);
-    }
-
-    public static void main(final String[] args) {
-        class M extends AbstractModule implements Runnable {
-
-            private final ByteBuffer newline = ByteBuffer.wrap(new byte[]{'\n'});
-            private final ObjectMapper m = new ObjectMapper();
-            private final FileChannel ch;
-
-            M() throws IOException {
-                if (args.length > 0) {
-                    File f = new File(args[0]);
-                    RandomAccessFile raf = new RandomAccessFile(f, "rw");
-                    ch = raf.getChannel();
-                    ch.position(ch.size());
-                } else {
-                    ch = null;
-                }
-            }
-
-            @Override
-            protected void configure() {
-                bind(BlurtCodec.class).to(BsonCodec.class);
-                bind(BlurtReceiver.class).toInstance(new BlurtReceiver() {
-                    @Override
-                    public void receive(Message<Map<String, Object>> object) {
-                        System.out.println(object);
-                        if (ch != null && ch.isOpen()) {
-                            try {
-                                String s = m.writeValueAsString(object);
-                                ch.write(ByteBuffer.wrap(s.getBytes(Charset.forName("UTF-8"))));
-                                ch.write(newline);
-                            } catch (IOException ex) {
-                                logger.log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void run() {
-                if (ch != null) {
-                    try {
-                        ch.force(true);
-                    } catch (IOException ex) {
-                        logger.log(Level.SEVERE, null, ex);
-                    } finally {
-                        try {
-                            ch.close();
-                        } catch (IOException ex) {
-                            logger.log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            }
-        }
-        try {
-            if (args.length > 0) {
-                File f = new File(args[0]);
-                System.err.println("Will log to " + f.getAbsolutePath());
-                if (!f.exists()) {
-                    if (!f.createNewFile()) {
-                        System.err.println("Could not create " + f.getAbsolutePath());
-                        System.exit(1);
-                    }
-                }
-            }
-            M m = new M();
-            MutableSettings s = SettingsBuilder.createDefault().buildMutableSettings();
-            s.setBoolean(BLURT_SEND, true);
-            s.setBoolean(BLURT_RECEIVE, true);
-            s.setBoolean(BLURT_HEARTBEAT, false);
-            s.setInt(BLURT_UDP_PORT, 41234);
-            s.setBoolean(BLURT_UDP_IPV6, true);
-            s.setString(BLURT_UDP_HOST, DEFAULT_IPV6_UDP_HOST);
-            Dependencies deps = new Dependencies(s, m);
-            if (m.ch != null) {
-                ShutdownHookRegistry reg = deps.getInstance(ShutdownHookRegistry.class);
-                reg.add(m);
-            }
-            final BlurtUDP blurt = deps.getInstance(BlurtUDP.class);
-            blurt.start();
-            Timer t = new Timer("Hoo");
-            t.scheduleAtFixedRate(new TimerTask() {
-                int ix = 0;
-
-                @Override
-                public void run() {
-                    Map<String, Object> m = new HashMap<>();
-                    m.put("ix", ix++);
-                    m.put("hey", "hoo");
-                    blurt.blurt(m);
-                    System.out.println("Send");
-                }
-            }, 2000, 2000);
-            Thread.sleep(20000);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
     }
 
     private class HeartbeatTimerTask extends java.util.TimerTask {
