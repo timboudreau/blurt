@@ -73,6 +73,21 @@ know the application is still alive
  * ``blurt.receive`` - If set to false, do not listen for messages, only send
 
 
+Maven
+-----
+
+To use it from Maven, add [the Maven repository described here](http://timboudreau.com/builds)
+to your POM file, and then set a dependency, e.g.
+
+        <dependency>
+            <groupId>com.mastfrog</groupId>
+            <artifactId>blurt</artifactId>
+            <version>1.3.9-SNAPSHOT</version>
+        </dependency>
+
+Check the POM file linked above for the current version.
+
+
 Blurt for NodeJS
 ----------------
 

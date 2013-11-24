@@ -2,11 +2,14 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.mastfrog</groupId>
+    <parent>
+        <artifactId>mastfrog-parent</artifactId>
+        <groupId>com.mastfrog</groupId>
+        <version>1.3.9-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
     <artifactId>Blurt</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>Blurt</name>
-    <url>http://maven.apache.org</url>
     <build>
         <plugins>
             <plugin>
@@ -20,9 +23,6 @@
             </plugin>
         </plugins>
     </build>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
