@@ -136,6 +136,14 @@ sent the message, which machine and which run of that application sent it.
 This information is helpful if doing shared logging or performance event
 collection.
 
+The strings are simply random characters which are generated, and can be
+mapped back to the originating application, and can be used to distinguish
+multiple instances of the same application on the same machine or cluster.
+
+They are also what Blurt uses, in a multicast or broadcast situation,
+to avoid sending you packets that were sent from the same process they
+are received in.
+
 
 BSON instead of JSON
 --------------------
@@ -152,5 +160,17 @@ To enable BSON in the Java version, bind the following with Guice:
 To enable BSON in the Javascript version, set the ``bson`` property to ``true`` in the
 configuration object you pass to the ``Blurt`` constructor.
 
+
+What Goes Over The Wire
+-----------------------
+
+The object you pass to ``blurt()`` (which should be a ``Map``, javascript hash or something, at any rate, that
+can be resolved to key/value pairs) is simply serialized to JSON or BSON, with one little
+addition:  A key ``i`` is added (I know, I know, one letter variables - but we're trying to
+save bytes here!) to the outgoing data, which contains the following:
+
+          $applicationId:$instanceId:$applicationName
+
+These are stripped out of the payload you get back, and are passed to you separately.
 
 
