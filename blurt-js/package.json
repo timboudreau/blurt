@@ -1,0 +1,28 @@
+{
+    "name": "blurt-js",
+    "description": "A handy little tool for sending and receiving fire-and-forget UDP packets with JSON/BSON payloads.",
+    "version": "0.0.1",
+    "main": "./blurt.js",
+    "author": {
+        "name": "Tim Boudreau",
+        "email": "niftiness@gmail.com",
+        "url": "http://timboudreau.com"
+    },
+    "keywords": ["udp", "cluster"],
+    "licenses": {
+        "type": "MIT"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/YOUR_LOGIN/blurt-js.git"
+    },
+    "bugs": {
+        "url": "http://github.com/tboudreau/blurt/issues"
+    },
+    "license": {
+        "type": "mit"
+    },
+    "engines": {
+        "node": ">=0.8.8"
+    }
+}
