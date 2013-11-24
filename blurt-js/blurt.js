@@ -13,7 +13,8 @@ var defaults = {
     multicastLoopback: true,
     multicastTtl: 2,
     send: true,
-    receive: true
+    receive: true,
+    bson: false
 };
 
 function Blurt(suppliedConfig) {
@@ -43,6 +44,8 @@ function Blurt(suppliedConfig) {
     var client = config.send ? dgram.createSocket(config.ipv4 ? "udp4" : "udp6") : null;
 
     console.log(util.inspect(config))
+    
+    var bson = config.bson ? require('buffalo') : null;
 
     var uid = config.appId + ':' + config.instanceId + ':' + config.appName;
     var logged = false;
@@ -52,7 +55,7 @@ function Blurt(suppliedConfig) {
             console.log("Blurt send not enabled");
         }
         message.i = uid;
-        var data = new Buffer(JSON.stringify(message));
+        var data = bson ? bson.serialize(message) : new Buffer(JSON.stringify(message));
         client.send(data, 0, data.length, config.port, config.host, function(err) {
             self.emit('sent', message);
             if (err) {
@@ -74,7 +77,7 @@ function Blurt(suppliedConfig) {
         client.bind(config.port);
         client.on('message', function(msg, rinfo) {
             try {
-                var decoded = JSON.parse(msg);
+                var decoded = bson ? bson.parse(msg) : JSON.parse(msg);
                 var i = decoded['i'];
                 if (i && rex.test(i)) {
                     var inf = rex.exec(i);
@@ -100,7 +103,7 @@ util.inherits(Blurt, events.EventEmitter);
 module.exports = Blurt;
 
 if (require.main === module) {
-    var b = new Blurt({ ipv6 : true, host : 'ff02::1'});
+    var b = new Blurt({ ipv6 : true, host : 'ff02::1', bson : true});
     var i = 0;
     setInterval(function() {
         b.blurt({hello: 'hello', ix: i++});

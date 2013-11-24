@@ -106,7 +106,8 @@ pass an object to ``Blurt``'s constructor to override it.
             multicastLoopback: true,
             multicastTtl: 2,
             send: true,
-            receive: true
+            receive: true,
+            bson: false
         };
 
 The javascript ``Blurt`` is a standard ``EventEmitter``; like the Java version,
@@ -134,3 +135,22 @@ the origin IP address, is enough information to identify which application
 sent the message, which machine and which run of that application sent it.
 This information is helpful if doing shared logging or performance event
 collection.
+
+
+BSON instead of JSON
+--------------------
+
+UDP has limitations on packet size, so to fit the most information into the smallest
+number of bytes, BSON (the binary JSON format [MongoDB](http://mongodb.org) uses) is
+supported, which significantly reduces the number of bytes needed for packets, particularly
+in the case of strings which cost extra bytes for quotes.
+
+To enable BSON in the Java version, bind the following with Guice:
+
+       bind(BlurtCodec.class).to(BsonCodec.class);
+
+To enable BSON in the Javascript version, set the ``bson`` property to ``true`` in the
+configuration object you pass to the ``Blurt`` constructor.
+
+
+

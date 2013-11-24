@@ -280,6 +280,7 @@ class BlurtUDP implements Blurt, BlurtControl {
 
             @Override
             protected void configure() {
+                bind(BlurtCodec.class).to(BsonCodec.class);
                 bind(BlurtReceiver.class).toInstance(new BlurtReceiver() {
                     @Override
                     public void receive(Message<Map<String, Object>> object) {
