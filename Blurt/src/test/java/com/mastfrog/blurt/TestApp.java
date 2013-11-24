@@ -56,6 +56,7 @@ public class TestApp {
                 bind(BlurtReceiver.class).toInstance(new BlurtReceiver() {
                     @Override
                     public void receive(Message<Map<String, Object>> object) {
+                        System.out.println("Message from " + object.getInfo().applicationName() + " " + object.getInfo().installationIdentifier() + " " + object.getInfo().processIdentifier());
                         System.out.println(object);
                         if (ch != null && ch.isOpen()) {
                             try {
@@ -125,7 +126,7 @@ public class TestApp {
                     blurt.blurt(m);
                     System.out.println("Send");
                 }
-            }, 2000, 2000);
+            }, 22000, 22000);
             Thread.sleep(20000);
         } catch (Exception e) {
             e.printStackTrace();

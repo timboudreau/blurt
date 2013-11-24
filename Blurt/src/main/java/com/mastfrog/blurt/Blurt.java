@@ -30,6 +30,8 @@ public interface Blurt {
     public static final String BLURT_UDP_TRAFFIC_CLASS = "blurt.udp.traffic.class";
     public static final String BLURT_UDP_BUFFER_SIZE = "blurt.udp.buffer.size";
     public static final String BLURT_AUTOSTART = "blurt.autostart";
+    public static final String BLURT_HEARTBEAT_INTERVAL_MILLIS = "blurt.heartbeat.interval";
+    public static final long DEFAULT_HEARTBEAT_INTERVAL = 30000;
 
     /**
      * Blurt a message out into the ether

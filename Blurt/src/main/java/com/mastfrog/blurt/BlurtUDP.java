@@ -50,20 +50,20 @@ import java.util.logging.Logger;
  *
  * @author Tim Boudreau
  */
-@Defaults(value = {BLURT_UDP_HOST + "=224.0.0.1",
-    BLURT_UDP_PORT + "=41234",
-    BLURT_UDP_THREAD_COUNT + "=2",
-    BLURT_UDP_IPV6 + "=false",
-    BLURT_ENABLED + "=true",
-    BLURT_SEND + "=true",
-    BLURT_RECEIVE + "=true"})
-//@Defaults(value = {BLURT_UDP_HOST + "=ff02::1",
-//    BLURT_UDP_PORT + "=" + DEFAULT_UDP_PORT,
-//    BLURT_UDP_THREAD_COUNT + "=6",
-//    BLURT_UDP_IPV6 + "=true",
+//@Defaults(value = {BLURT_UDP_HOST + "=224.0.0.1",
+//    BLURT_UDP_PORT + "=41234",
+//    BLURT_UDP_THREAD_COUNT + "=2",
+//    BLURT_UDP_IPV6 + "=false",
 //    BLURT_ENABLED + "=true",
 //    BLURT_SEND + "=true",
 //    BLURT_RECEIVE + "=true"})
+@Defaults(value = {BLURT_UDP_HOST + "=ff02::1",
+    BLURT_UDP_PORT + "=" + DEFAULT_UDP_PORT,
+    BLURT_UDP_THREAD_COUNT + "=6",
+    BLURT_UDP_IPV6 + "=true",
+    BLURT_ENABLED + "=true",
+    BLURT_SEND + "=true",
+    BLURT_RECEIVE + "=true"})
 @Singleton
 class BlurtUDP implements Blurt, BlurtControl {
 
@@ -87,7 +87,7 @@ class BlurtUDP implements Blurt, BlurtControl {
     private final Timer heartbeat = new Timer(BlurtUDP.class.getName());
     private final AtomicBoolean started = new AtomicBoolean();
     private final AtomicBoolean stopped = new AtomicBoolean();
-
+    private final long heartbeatInterval;
     @Inject
     BlurtUDP(ShutdownHookRegistry hooks, BlurtReceiver receiver, Settings settings, BlurtCodec codec, ApplicationInfo info) throws ClosedChannelException, SocketException, IOException {
         this.info = info;
@@ -98,9 +98,10 @@ class BlurtUDP implements Blurt, BlurtControl {
         enabled = settings.getBoolean(BLURT_ENABLED, true);
         allowSend = settings.getBoolean(BLURT_SEND, true);
         autoStart = settings.getBoolean(BLURT_AUTOSTART, true);
+        heartbeatInterval = settings.getLong(BLURT_HEARTBEAT_INTERVAL_MILLIS, DEFAULT_HEARTBEAT_INTERVAL);
         boolean allowReceive = receiver instanceof BlurtReceiver.NoOpBlurtReceiver ? false : settings.getBoolean(BLURT_RECEIVE, true);
         boolean loopbackOnly = settings.getBoolean(BLURT_LOOPBACK_ONLY, false);
-        useHeartbeat = settings.getBoolean(BLURT_HEARTBEAT, true);
+        useHeartbeat = heartbeatInterval > 0 && settings.getBoolean(BLURT_HEARTBEAT, true);
         String udpHost = settings.getString(BLURT_UDP_HOST, ipv6 ? DEFAULT_IPV6_UDP_HOST : DEFAULT_UDP_HOST);
         int udpPort = settings.getInt(BLURT_UDP_PORT, 41234);
         Checks.nonZero(BLURT_UDP_PORT, udpPort);
@@ -174,8 +175,8 @@ class BlurtUDP implements Blurt, BlurtControl {
         }
         if (!started.getAndSet(true)) {
             serverThreadPool.submit(loop);
-            if (enabled && allowSend && useHeartbeat) {
-                heartbeat.scheduleAtFixedRate(new HeartbeatTimerTask(), 10, 30000);
+            if (allowSend && useHeartbeat) {
+                heartbeat.scheduleAtFixedRate(new HeartbeatTimerTask(), 10, heartbeatInterval);
             }
         }
     }
