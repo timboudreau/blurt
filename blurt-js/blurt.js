@@ -6,7 +6,7 @@ var defaults = {
     host: "224.0.0.1",
     port: 41234,
     heartbeat: true,
-    interval: 10000,
+    interval: 30000,
     ipv6: false,
     bson: false,
     autostart: true,
@@ -44,7 +44,7 @@ function Blurt(suppliedConfig) {
     var client = config.send ? dgram.createSocket(config.ipv4 ? "udp4" : "udp6") : null;
 
     console.log(util.inspect(config))
-    
+
     var bson = config.bson ? require('buffalo') : null;
 
     var uid = config.appId + ':' + config.instanceId + ':' + config.appName;
@@ -68,7 +68,7 @@ function Blurt(suppliedConfig) {
         var start = new Date().getTime();
         setInterval(function() {
             var ival = new Date().getTime() - start;
-            blurt ({uptime : ival});
+            blurt({uptime: ival});
         }, config.interval);
     }
 
@@ -82,6 +82,7 @@ function Blurt(suppliedConfig) {
                 if (i && rex.test(i)) {
                     var inf = rex.exec(i);
                     if (uid !== decoded['i']) { // ignore our own messages
+                        delete decoded['i'];
                         var info = {
                             appName: inf[3],
                             instanceId: inf[2],
@@ -103,7 +104,7 @@ util.inherits(Blurt, events.EventEmitter);
 module.exports = Blurt;
 
 if (require.main === module) {
-    var b = new Blurt({ ipv6 : true, host : 'ff02::1', bson : true});
+    var b = new Blurt({ipv6: true, host: 'ff02::1', bson: true});
     var i = 0;
     setInterval(function() {
         b.blurt({hello: 'hello', ix: i++});

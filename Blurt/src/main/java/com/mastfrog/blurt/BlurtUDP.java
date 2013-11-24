@@ -175,7 +175,7 @@ class BlurtUDP implements Blurt, BlurtControl {
         if (!started.getAndSet(true)) {
             serverThreadPool.submit(loop);
             if (enabled && allowSend && useHeartbeat) {
-                heartbeat.scheduleAtFixedRate(new HeartbeatTimerTask(), 10, 15000);
+                heartbeat.scheduleAtFixedRate(new HeartbeatTimerTask(), 10, 30000);
             }
         }
     }
