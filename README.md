@@ -7,8 +7,17 @@ payloads.  Useful for performance monitoring or as a simple message bus between
 applications or within a cluster.  Each packet contains unique ids to identify the 
 host, application and installed copy of the application, in addition to the payload.
 
-Implemented in both Java (using NIO) and [NodeJS](http://nodejs.org).
+There are interoperable implementations for Java (using NIO) and 
+[NodeJS](http://nodejs.org) in this project.
 
+It was written with two use-cases in mind: 
+
+ 1. Providing a low-impact, minimal dependency way for multiple applications 
+in a cluster to publish data about what they are doing for monitoring purposes
+ 2. Creating a minimally invasive way to integrate unrelated developer tools
+such that a dashboard of recent activity can be created, without imposing any
+particular expectations of what the published data looks like or how (if) it is
+stored.
 
 Java-Blurt
 ----------
