@@ -1,10 +1,26 @@
 package com.mastfrog.blurt;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import static com.mastfrog.blurt.BlurtUDP.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import static com.mastfrog.blurt.Blurt.BLURT_AUTOSTART;
+import static com.mastfrog.blurt.Blurt.BLURT_ENABLED;
+import static com.mastfrog.blurt.Blurt.BLURT_HEARTBEAT;
+import static com.mastfrog.blurt.Blurt.BLURT_HEARTBEAT_INTERVAL_MILLIS;
+import static com.mastfrog.blurt.Blurt.BLURT_LOOPBACK_ONLY;
+import static com.mastfrog.blurt.Blurt.BLURT_RECEIVE;
+import static com.mastfrog.blurt.Blurt.BLURT_SEND;
+import static com.mastfrog.blurt.Blurt.BLURT_UDP_HOST;
+import static com.mastfrog.blurt.Blurt.BLURT_UDP_IPV6;
+import static com.mastfrog.blurt.Blurt.BLURT_UDP_NETWORK_INTERFACE;
+import static com.mastfrog.blurt.Blurt.BLURT_UDP_PORT;
+import static com.mastfrog.blurt.Blurt.BLURT_UDP_THREAD_COUNT;
+import static com.mastfrog.blurt.Blurt.DEFAULT_HEARTBEAT_INTERVAL;
+import static com.mastfrog.blurt.BlurtUDP.DEFAULT_IPV6_UDP_HOST;
+import static com.mastfrog.blurt.BlurtUDP.DEFAULT_UDP_HOST;
+import static com.mastfrog.blurt.BlurtUDP.DEFAULT_UDP_PORT;
+import static com.mastfrog.blurt.BlurtUDP.logger;
 import com.mastfrog.cluster.ApplicationInfo;
 import com.mastfrog.giulius.ShutdownHookRegistry;
 import com.mastfrog.guicy.annotations.Defaults;

@@ -8,7 +8,7 @@ import static com.mastfrog.blurt.Blurt.BLURT_SEND;
 import static com.mastfrog.blurt.Blurt.BLURT_UDP_HOST;
 import static com.mastfrog.blurt.Blurt.BLURT_UDP_IPV6;
 import static com.mastfrog.blurt.Blurt.BLURT_UDP_PORT;
-import static com.mastfrog.blurt.BlurtUDP.DEFAULT_IPV6_UDP_HOST;
+import static com.mastfrog.blurt.BlurtUDP.DEFAULT_UDP_HOST;
 import static com.mastfrog.blurt.BlurtUDP.logger;
 import com.mastfrog.giulius.Dependencies;
 import com.mastfrog.giulius.ShutdownHookRegistry;
@@ -105,8 +105,8 @@ public class TestApp {
             s.setBoolean(BLURT_RECEIVE, true);
             s.setBoolean(BLURT_HEARTBEAT, false);
             s.setInt(BLURT_UDP_PORT, 41234);
-            s.setBoolean(BLURT_UDP_IPV6, true);
-            s.setString(BLURT_UDP_HOST, DEFAULT_IPV6_UDP_HOST);
+            s.setBoolean(BLURT_UDP_IPV6, false);
+            s.setString(BLURT_UDP_HOST, DEFAULT_UDP_HOST);
             Dependencies deps = new Dependencies(s, m);
             if (m.ch != null) {
                 ShutdownHookRegistry reg = deps.getInstance(ShutdownHookRegistry.class);
@@ -124,9 +124,9 @@ public class TestApp {
                     m.put("ix", ix++);
                     m.put("hey", "hoo");
                     blurt.blurt(m);
-                    System.out.println("Send");
+                    System.out.println("Send " + m);
                 }
-            }, 22000, 22000);
+            }, 5000, 10000);
             Thread.sleep(20000);
         } catch (Exception e) {
             e.printStackTrace();
