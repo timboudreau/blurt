@@ -29,7 +29,7 @@ public class CollectorApplication extends Application {
                 .add(new CollectorModule())
                 .add(new JacksonModule(new JacksonMongoIDConfig()))
                 .add(new MongoModule(EVENTS).bindCollection(EVENTS))
-                .add(new ServerModule(CollectorApplication.class))
+                .add(new ServerModule<CollectorApplication>(CollectorApplication.class))
                 .build();
 
         Server server = deps.getInstance(Server.class);

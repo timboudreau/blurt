@@ -28,6 +28,7 @@ public class BlurtMessageCollector extends BlurtReceiver {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void receive(Message<Map<String, Object>> message) {
         System.out.println("Receive: " + message);
         try {
