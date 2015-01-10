@@ -20,7 +20,7 @@ public class QueryFromRequest extends Acteur {
         for (Map.Entry<String, String> e : evt.getParametersAsMap().entrySet()) {
             q.put(e.getKey(), e.getValue());
         }
-        setState(new ConsumedLockedState(q));
+        next(q);
     }
 
     private static enum Patterns {
