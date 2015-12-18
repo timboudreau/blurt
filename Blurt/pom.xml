@@ -57,4 +57,22 @@
             <artifactId>bson4jackson</artifactId>
         </dependency>
     </dependencies>
+    <scm>
+        <url>https://github.com/timboudreau/blurt</url>
+        <connection>scm:git:https://github.com/timboudreau/blurt.git</connection>
+        <developerConnection>git@github.com/timboudreau/blurt.git</developerConnection>
+    </scm>
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>http://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Tim Boudreau</name>
+            <email>tim@timboudreau.com</email>
+            <url>https://timboudreau.com</url>
+        </developer>
+    </developers>
 </project>
