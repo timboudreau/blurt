@@ -23,7 +23,7 @@ import static com.mastfrog.blurt.BlurtUDP.DEFAULT_UDP_PORT;
 import static com.mastfrog.blurt.BlurtUDP.logger;
 import com.mastfrog.cluster.ApplicationInfo;
 import com.mastfrog.giulius.ShutdownHookRegistry;
-import com.mastfrog.guicy.annotations.Defaults;
+import com.mastfrog.giulius.annotations.Defaults;
 import com.mastfrog.settings.Settings;
 import com.mastfrog.util.Checks;
 import com.mastfrog.util.collections.CollectionUtils;
