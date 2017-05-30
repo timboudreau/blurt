@@ -6,10 +6,10 @@ import com.mastfrog.acteur.Acteur;
 import com.mastfrog.acteur.ActeurFactory;
 import com.mastfrog.acteur.HttpEvent;
 import com.mastfrog.acteur.Page;
+import static com.mastfrog.acteur.headers.Headers.CONTENT_TYPE;
 import com.mastfrog.acteur.headers.Method;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-import io.netty.handler.codec.http.HttpResponseStatus;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import io.netty.util.CharsetUtil;
 
@@ -33,7 +33,7 @@ public class StreamResource extends Page {
         @Inject
         StreamActeur(Publisher publisher, Page page, HttpEvent evt) {
             setChunked(false);
-            page.getResponseHeaders().setContentType(MediaType.parse("text/event-stream").withCharset(CharsetUtil.UTF_8));
+            add(CONTENT_TYPE, MediaType.parse("text/event-stream").withCharset(CharsetUtil.UTF_8));
             setState(new RespondWith(OK));
             setResponseBodyWriter(this);
             this.publisher = publisher;
