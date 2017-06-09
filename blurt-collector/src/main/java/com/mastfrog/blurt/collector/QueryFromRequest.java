@@ -17,7 +17,7 @@ public class QueryFromRequest extends Acteur {
     @Inject
     QueryFromRequest(HttpEvent evt) {
         BasicDBObject q = new BasicDBObject();
-        for (Map.Entry<String, String> e : evt.getParametersAsMap().entrySet()) {
+        for (Map.Entry<String, String> e : evt.urlParametersAsMap().entrySet()) {
             q.put(e.getKey(), e.getValue());
         }
         next(q);
@@ -36,7 +36,7 @@ public class QueryFromRequest extends Acteur {
         }
 
         boolean process(BasicDBObject ob, String name, HttpEvent evt) {
-            String val = evt.getParameter(name);
+            String val = evt.urlParameter(name);
             if (val != null) {
                 return decorate(ob, name, val);
             }
