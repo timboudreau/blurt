@@ -1,8 +1,8 @@
-var events = require('events'), util = require('util'),
+const events = require('events'), util = require('util'),
         dgram = require('dgram');
 
 // Default values if not supplied in the config
-var defaults = {
+const defaults = {
     host: "224.0.0.1",
     port: 41234,
     heartbeat: true,
@@ -47,16 +47,26 @@ function Blurt(suppliedConfig) {
 
     var uid = config.appId + ':' + config.instanceId + ':' + config.appName;
     var logged = false;
-    function blurt(message) {
-        if (!client && !logged) {
+    function blurt(message, callback) {
+        if (!client) {
+            if (!logged) {
+                console.log("Blurt send not enabled");
+            }
             logged = true;
-            console.log("Blurt send not enabled");
+            let err = new Error('Send not enabled');
+            if(callback) {
+                return callback(err);
+            } else {
+                throw err;
+            }
         }
         message.i = uid;
         var data = bson ? bson.serialize(message) : new Buffer(JSON.stringify(message));
         client.send(data, 0, data.length, config.port, config.host, function(err) {
             self.emit('sent', message);
-            if (err) {
+            if (callback) {
+                callback(err);
+            } else if (err) {
                 console.log(err);
             }
         });
@@ -85,12 +95,12 @@ function Blurt(suppliedConfig) {
                             appName: inf[3],
                             instanceId: inf[2],
                             appId: inf[1]
-                        }
+                        };
                         self.emit('message', decoded, info, rinfo);
                     }
                 }
             } catch (err) {
-                console.log(msg + ' ' + err)
+                console.log(msg + ' ' + err);
             }
         });
     }
@@ -111,5 +121,5 @@ if (require.main === module) {
     b.on('message', function(msg, app, rinfo) {
         console.log("RECEIVED: " + util.inspect(msg) + " from " + util.inspect(app));
         console.log(util.inspect(rinfo))
-    })
+    });
 }
