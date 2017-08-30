@@ -14,7 +14,6 @@ const defaults = {
     multicastTtl: 2,
     send: true,
     receive: true,
-    bson: false
 };
 
 function Blurt(suppliedConfig) {

@@ -1,7 +1,7 @@
 {
   "name": "blurt",
   "description": "A handy little tool for sending and receiving fire-and-forget UDP packets with JSON/BSON payloads.",
-  "version": "1.39.1",
+  "version": "2.0.0",
   "main": "./blurt.js",
   "author": {
     "name": "Tim Boudreau",
