@@ -102,6 +102,8 @@ function Blurt(suppliedConfig) {
                 console.log(msg + ' ' + err);
             }
         });
+    } else {
+        client.bind(config.port);
     }
 
     this.blurt = blurt;
@@ -111,11 +113,12 @@ util.inherits(Blurt, events.EventEmitter);
 module.exports = Blurt;
 
 if (require.main === module) {
-    var b = new Blurt({ipv6: true, host: 'ff02::1', bson: true});
+//    var b = new Blurt({ipv6: true, host: 'ff02::1', bson: true});
+    var b = new Blurt({ heartbeat : false});
     var i = 0;
-    setInterval(function() {
-        b.blurt({hello: 'hello', ix: i++});
-    }, 1000);
+//    setInterval(function() {
+//        b.blurt({hello: 'hello', ix: i++});
+//    }, 1000);
 
     b.on('message', function(msg, app, rinfo) {
         console.log("RECEIVED: " + util.inspect(msg) + " from " + util.inspect(app));
