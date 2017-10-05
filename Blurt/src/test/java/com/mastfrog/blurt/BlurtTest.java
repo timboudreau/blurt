@@ -33,7 +33,7 @@ import static com.mastfrog.cluster.ApplicationInfo.SYSTEM_PROPERTY_NO_WRITES;
 import com.mastfrog.giulius.Dependencies;
 import com.mastfrog.settings.MutableSettings;
 import com.mastfrog.settings.SettingsBuilder;
-import com.mastfrog.util.GUIDFactory;
+import com.mastfrog.util.strings.RandomStrings;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -176,7 +176,7 @@ public class BlurtTest extends TestCase {
 
         @Override
         public String processIdentifier() {
-            return GUIDFactory.get().newGUID(1, 7);
+            return new RandomStrings().get(7);
         }
 
         @Override
