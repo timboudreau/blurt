@@ -23,7 +23,6 @@
  */
 package com.mastfrog.blurt.collector;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.mastfrog.blurt.BlurtReceiver;
@@ -60,10 +59,8 @@ public class BlurtMessageCollector extends BlurtReceiver {
             Map<String, Object> m = mapper.readValue(s, Map.class);
             DBObject obj = new BasicDBObject(m);
             publisher.publish(obj);
-        } catch (JsonProcessingException ex) {
-            Exceptions.printStackTrace(ex);
         } catch (IOException ex) {
-            org.openide.util.Exceptions.printStackTrace(ex);
+            Exceptions.printStackTrace(ex);
         }
     }
 }
