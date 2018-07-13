@@ -10,11 +10,6 @@
     <artifactId>blurt-collector</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.mastfrog</groupId>
-            <artifactId>annotation-processors</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>acteur</artifactId>
         </dependency>
