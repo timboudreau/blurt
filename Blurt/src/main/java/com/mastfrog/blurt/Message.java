@@ -26,7 +26,7 @@ package com.mastfrog.blurt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mastfrog.cluster.ApplicationInfo;
-import com.mastfrog.util.Checks;
+import com.mastfrog.util.preconditions.Checks;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 

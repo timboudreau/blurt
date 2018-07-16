@@ -24,8 +24,8 @@
 package com.mastfrog.blurt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mastfrog.util.Exceptions;
-import com.mastfrog.util.Streams;
+import com.mastfrog.util.preconditions.Exceptions;
+import com.mastfrog.util.streams.Streams;
 import de.undercouch.bson4jackson.BsonFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;

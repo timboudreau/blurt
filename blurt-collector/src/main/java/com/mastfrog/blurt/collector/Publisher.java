@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import static com.mastfrog.blurt.collector.CollectorModule.EVENTS;
 import com.mastfrog.giulius.ShutdownHookRegistry;
-import com.mastfrog.util.Exceptions;
+import com.mastfrog.util.preconditions.Exceptions;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;

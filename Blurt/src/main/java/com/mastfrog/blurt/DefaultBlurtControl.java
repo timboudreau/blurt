@@ -24,7 +24,7 @@
 package com.mastfrog.blurt;
 
 import com.google.inject.Inject;
-import com.mastfrog.util.ConfigurationError;
+import com.mastfrog.util.preconditions.ConfigurationError;
 import java.io.IOException;
 import java.net.SocketException;
 import java.nio.channels.ClosedChannelException;

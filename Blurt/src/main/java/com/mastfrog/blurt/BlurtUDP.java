@@ -48,7 +48,7 @@ import com.mastfrog.cluster.ApplicationInfo;
 import com.mastfrog.giulius.ShutdownHookRegistry;
 import com.mastfrog.giulius.annotations.Defaults;
 import com.mastfrog.settings.Settings;
-import com.mastfrog.util.Checks;
+import com.mastfrog.util.preconditions.Checks;
 import com.mastfrog.util.collections.CollectionUtils;
 import java.io.IOException;
 import java.net.Inet6Address;
