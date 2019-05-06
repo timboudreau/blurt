@@ -9,7 +9,10 @@
     </parent>
     <artifactId>Blurt</artifactId>
     <name>Blurt</name>
-    <url>https://github.com/timboudreau/blurt</url>
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/timboudreau/blurt/issues</url>
+    </issueManagement>
     <properties>
         <!-- Turn tests off by default - they rely on multicast and 
              broadcast being available, and it isn't in virtual 

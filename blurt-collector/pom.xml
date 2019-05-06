@@ -98,7 +98,10 @@
             <url>https://timboudreau.com/maven/</url>
         </pluginRepository>
     </pluginRepositories>
-    <url>https://github.com/timboudreau/blurt</url>
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/timboudreau/blurt/issues</url>
+    </issueManagement>
     <scm>
         <url>https://github.com/timboudreau/blurt</url>
         <connection>scm:git:https://github.com/timboudreau/blurt.git</connection>
