@@ -43,19 +43,6 @@
             </snapshots>
         </repository>
         <repository>
-            <id>netbeans</id>
-            <name>NetBeans</name>
-            <url>http://bits.netbeans.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
             <id>central</id>
             <name>central</name>
             <url>https://repo1.maven.org/maven2</url>
@@ -75,11 +62,6 @@
         </repository>
     </repositories>
     <pluginRepositories>
-        <pluginRepository>
-            <id>java.net-Public</id>
-            <name>Maven Java Net Snapshots and Releases</name>
-            <url>https://maven.java.net/content/groups/public/</url>
-        </pluginRepository>
         <pluginRepository>
             <id>sonatype-snapshots</id>
             <name>Sonatype Snapshots</name>
