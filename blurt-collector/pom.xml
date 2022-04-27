@@ -28,39 +28,6 @@
             <artifactId>jackson</artifactId>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>timboudreau-builds</id>
-            <name>timboudreau.com builds</name>
-            <url>https://timboudreau.com/maven/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>central</id>
-            <name>central</name>
-            <url>https://repo1.maven.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-        <repository>
-            <id>sonatype</id>
-            <name>sourceforge</name>
-            <url>http://oss.sonatype.org/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-    </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>sonatype-snapshots</id>
