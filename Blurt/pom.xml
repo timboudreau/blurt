@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>mastfrog-parent</artifactId>
         <groupId>com.mastfrog</groupId>
-        <version>2.8.1</version>
+        <version>3.0.0-dev</version>
         <relativePath/>
     </parent>
     <artifactId>Blurt</artifactId>
@@ -15,12 +18,14 @@
         <system>Github</system>
         <url>https://github.com/timboudreau/blurt/issues</url>
     </issueManagement>
+
     <properties>
-        <!-- Turn tests off by default - they rely on multicast and 
-             broadcast being available, and it isn't in virtual 
+        <!-- Turn tests off by default - they rely on multicast and
+             broadcast being available, and it isn't in virtual
              environments such as the continuous build server -->
         <maven.test.skip.exec>true</maven.test.skip.exec>
     </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -65,15 +70,18 @@
             <artifactId>bson4jackson</artifactId>
         </dependency>
     </dependencies>
+
     <scm>
         <url>https://github.com/timboudreau/blurt.git</url>
         <connection>scm:git:https://github.com/timboudreau/blurt.git</connection>
         <developerConnection>git@github.com/timboudreau/blurt.git</developerConnection>
     </scm>
+
     <organization>
         <name>Mastfrog Technologies</name>
         <url>https://mastfrog.com</url>
     </organization>
+
     <licenses>
         <license>
             <name>MIT</name>
@@ -81,6 +89,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <developers>
         <developer>
             <name>Tim Boudreau</name>
