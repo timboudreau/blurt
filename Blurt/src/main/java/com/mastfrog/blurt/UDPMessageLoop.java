@@ -141,6 +141,7 @@ final class UDPMessageLoop implements Runnable {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
         Thread.currentThread().setName("Blurt UDP Socket Loop");
         byte[] zeros = new byte[bufferSize];
