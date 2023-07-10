@@ -244,7 +244,7 @@ class BlurtUDP implements Blurt, BlurtControl {
     @Override
     public boolean blurt(Object message) {
         if (autoStart) {
-            if (!started.get()) {
+            if (started.compareAndSet(false, true)) {
                 try {
                     start();
                 } catch (SocketException ex) {
